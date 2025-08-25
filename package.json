@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "download:bootstrap4": "curl -o public/bootstrap4.css https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css && curl -o public/bootstrap4.bundle.min.js https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js",
     "download:bootstrap5": "curl -o public/bootstrap5.css https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css && curl -o public/bootstrap5.bundle.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js",
-    "build:bootstrap4": "npx postcss public/bootstrap4.css -o public/bootstrap4-scoped.css --config postcss.config.cjs",
-    "build:bootstrap5": "npx postcss public/bootstrap5.css -o public/bootstrap5-scoped.css --config postcss.config.cjs",
+    "scope:bootstrap4": "npx postcss public/bootstrap4.css -o public/bootstrap4-scoped.css --config postcss.config.cjs",
+    "scope:bootstrap5": "npx postcss public/bootstrap5.css -o public/bootstrap5-scoped.css --config postcss.config.cjs",
     "build:css": "cat public/bootstrap4-scoped.css public/bootstrap5-scoped.css > public/bootstrap-migration.css"
   },
   "dependencies": {

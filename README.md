@@ -26,8 +26,8 @@ This setup is ideal for teams migrating large codebases from Bootstrap 4 to 5, a
 
 1. Install dependencies: `npm install`
 2. Download Bootstrap 4 and 5 assets: `npm run download:bootstrap4` and `npm run download:bootstrap5`
-3. Add v4 prefix: in `postcss.config.cjs`, comment out the `.bs5` prefix, then run `npm run build:bootstrap4`
-4. Add v5 prefix: in `postcss.config.cjs`, comment out the `.bs4` prefix, then run `npm run build:bootstrap5`
+3. Add v4 prefix: in `postcss.config.cjs`, comment out the `.bs5` prefix, then run `npm run scope:bootstrap4`
+4. Add v5 prefix: in `postcss.config.cjs`, comment out the `.bs4` prefix, then run `npm run scope:bootstrap5`
 5. Build combined scoped CSS: `npm run build:css`
 6. Start the app: `npm run dev`
 
@@ -137,7 +137,7 @@ To ensure styles are correctly scoped, you must update your `postcss.config.cjs`
      ```
    - Run:
      ```bash
-     npm run build:bootstrap4
+     npm run scope:bootstrap4
      ```
 
 2. **Scope Bootstrap v5:**
@@ -148,7 +148,7 @@ To ensure styles are correctly scoped, you must update your `postcss.config.cjs`
      ```
    - Run:
      ```bash
-     npm run build:bootstrap5
+     npm run scope:bootstrap5
      ```
 
 3. **Combine both scoped files:**
