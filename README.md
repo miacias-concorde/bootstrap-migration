@@ -17,6 +17,11 @@ This project demonstrates how to use both Bootstrap v4 and v5 side-by-side in a 
 - PostCSS processes the CSS to scope each version.
 - Components are wrapped in either `.bs4` or `.bs5` via a reusable `Bootstrap` component to apply the correct styles.
 
+## Why?
+
+This setup is ideal for teams migrating large codebases from Bootstrap 4 to 5, allowing gradual migration and easy comparison of styles and features with with clear style separation and minimal conflicts and without fighting breaking changes.
+
+
 ## Usage
 
 1. Install dependencies: `npm install`
@@ -105,10 +110,13 @@ Follow these steps to recreate the migration proof of concept in your own reposi
       - Wrap Bootstrap 4 components in `<div class="bs4">...</div>`
       - Wrap Bootstrap 5 components in `<div class="bs5">...</div>`
 
----
 
 
-## Why?
+## Screenshots
 
-This setup is ideal for teams migrating large codebases from Bootstrap 4 to 5, allowing gradual migration and easy comparison of styles and features with with clear style separation and minimal conflicts and without fighting breaking changes.
+### Forms
+
+![Forms](./public/image.png)
+
+
 
