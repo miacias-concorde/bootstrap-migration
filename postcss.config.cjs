@@ -1,6 +1,6 @@
-import prefixWrap from 'postcss-prefixwrap';
+const prefixWrap = require('postcss-prefixwrap');
 
-export default {
+module.exports = {
   plugins: [
     prefixWrap('.bs4', {
       whitelist: ['.container', '.row', '.col', /^\.col-/], // optional

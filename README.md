@@ -5,15 +5,15 @@ This project demonstrates how to use both Bootstrap v4 and v5 side-by-side in a 
 ## Key Features
 
 - **Bootstrap v4 and v5 loaded together**: Bootstrap 5 is installed via npm; Bootstrap 4 is downloaded as a static asset.
-- **Scoped CSS**: PostCSS with `postcss-prefixwrap` is used to namespace each version (`.bs4` for v4, `.bs5` for v5), preventing style collisions.
-- **One import**: Import the migration Bootstrap CSS from one stylesheet `<link rel="stylesheet" href="/bootstrap-migration.css" />`
+- **Scoped CSS**: PostCSS with `postcss-prefixwrap` is used to namespace each version (`.bs4` for v4, `.bs5` for v5), preventing style collisions. Components without a prefix will receive neither set of styles.
+- **One import**: Import the migration Bootstrap CSS from one stylesheet `<link rel="stylesheet" href="/bootstrap-migration.css" />`, which can later be ejected once v4 and PostCSS prefixes are removed
 - **Migration-friendly**: Easily migrate components from v4 to v5 by changing their wrapper class.
 - **React + Vite**: Fast development environment with hot module replacement.
 
 ## How It Works
 
-- Bootstrap 4 CSS and JS are downloaded and placed in the `public` folder.
-- Bootstrap 5 is installed via npm and imported in the app.
+- Bootstrap 4 and 5 CSS and JS are downloaded and placed in the `public` folder.
+- Bootstrap 5 is installed via npm and imported in the app as a staged package to be used once the migration is complete
 - PostCSS processes the CSS to scope each version.
 - Components are wrapped in either `.bs4` or `.bs5` via a reusable `Bootstrap` component to apply the correct styles.
 
@@ -25,9 +25,11 @@ This setup is ideal for teams migrating large codebases from Bootstrap 4 to 5, a
 ## Usage
 
 1. Install dependencies: `npm install`
-2. Download Bootstrap 4 assets: `npm run download:bootstrap4`
-3. Build scoped CSS: `npm run build:css`
-4. Start the app: `npm run dev`
+2. Download Bootstrap 4 and 5 assets: `npm run download:bootstrap4` and `npm run download:bootstrap5`
+3. Add v4 prefix: in `postcss.config.cjs`, comment out the `.bs5` prefix, then run `npm run scope:bootstrap4`
+4. Add v5 prefix: in `postcss.config.cjs`, comment out the `.bs4` prefix, then run `npm run scope:bootstrap5`
+5. Build combined scoped CSS: `npm run build:css`
+6. Start the app: `npm run dev`
 
 ## How to Set Up Bootstrap v4 and v5 Scoping in Any Project
 
@@ -44,6 +46,9 @@ Follow these steps to recreate the migration proof of concept in your own reposi
      ```
 
 2. **Install Bootstrap v5 via npm**
+
+   Note: This is not used during migration and only used after v4 and PostCSS prefixing is ejected.
+
    ```bash
    npm install bootstrap
    ```
@@ -54,7 +59,12 @@ Follow these steps to recreate the migration proof of concept in your own reposi
 
      ```bash
      curl -o public/bootstrap4-scoped.css https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css
+
      curl -o public/bootstrap4-scoped.bundle.min.js https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js
+
+     curl -o public/bootstrap5.css https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
+
+     curl -o public/bootstrap5.bundle.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js
      ```
 
 4. **Install PostCSS and postcss-prefixwrap**
@@ -66,9 +76,11 @@ Follow these steps to recreate the migration proof of concept in your own reposi
    
    Create `postcss.config.cjs` in your project root:
 
+   NOTE: only one prefix can be ran at a time, which means that one or the other `prefixWrap()` will always need to be commented out when running script commands.
+
      ```js
-     import prefixWrap from 'postcss-prefixwrap';
-     export default {
+     const prefixWrap = require('postcss-prefixwrap');
+     module.exports = {
        plugins: [
          prefixWrap('.bs4'),
          prefixWrap('.bs5'),
@@ -90,8 +102,9 @@ Follow these steps to recreate the migration proof of concept in your own reposi
    Add a script to your `package.json`:
 
      ```json
-     "build:css": "sass --load-path=node_modules src/styles/bootstrap-migration.scss public/bootstrap-migration.css && postcss public/bootstrap-migration.css -o public/bootstrap-migration.css"
+     "build:css": "cat public/bootstrap4-scoped.css public/bootstrap5-scoped.css > public/bootstrap-migration.css"
      ```
+
    - Run:
      ```bash
      npm run build:css
@@ -112,7 +125,58 @@ Follow these steps to recreate the migration proof of concept in your own reposi
 
 
 
+## Important: Scoping Bootstrap v4 and v5
+
+To ensure styles are correctly scoped, you must update your `postcss.config.cjs` before each build step:
+
+1. **Scope Bootstrap v4:**
+   - Set your `postcss.config.cjs` to:
+     ```js
+     const prefixWrap = require('postcss-prefixwrap');
+     module.exports = { plugins: [prefixWrap('.bs4')] };
+     ```
+   - Run:
+     ```bash
+     npm run scope:bootstrap4
+     ```
+
+2. **Scope Bootstrap v5:**
+   - Change your `postcss.config.cjs` to:
+     ```js
+     const prefixWrap = require('postcss-prefixwrap');
+     module.exports = { plugins: [prefixWrap('.bs5')] };
+     ```
+   - Run:
+     ```bash
+     npm run scope:bootstrap5
+     ```
+
+3. **Combine both scoped files:**
+   - Run:
+     ```bash
+     npm run build:css
+     ```
+
+4. **Reference only the combined migration stylesheet in your HTML:**
+   ```html
+   <link rel="stylesheet" href="/bootstrap-migration.css" />
+   ```
+
+5. **Wrap your components:**
+   - Use `<div class="bs4">...</div>` for Bootstrap 4
+   - Use `<div class="bs5">...</div>` for Bootstrap 5
+
+**Note:**
+- Do not import or link the original, unscoped Bootstrap CSS files anywhere else in the application.
+- All Bootstrap styles will only apply inside their respective `.bs4` or `.bs5` containers.
+- Components that are not scoped will only receive styles applied other than Bootstrap, if any (or will receive browser defaults)
+
+
 ## Screenshots
+
+### Migration CSS combined file
+
+![bootstrap-migration.css](image.png)
 
 ### Forms
 
