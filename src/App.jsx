@@ -1,4 +1,4 @@
-import { SampleV4, SampleV5, Unwrapped } from './components/OtherStuff'
+import { SampleV4, SampleV5, Unwrapped, DoubleWrapped } from './components/OtherStuff'
 // import './App.css'
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
         <SampleV4 />
         <SampleV5 />
         <Unwrapped />
+        <DoubleWrapped />
       </div>
     </>
   )

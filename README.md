@@ -22,6 +22,15 @@ This project demonstrates how to use both Bootstrap v4 and v5 side-by-side in a 
 This setup is ideal for teams migrating large codebases from Bootstrap 4 to 5, allowing gradual migration and easy comparison of styles and features with with clear style separation and minimal conflicts and without fighting breaking changes.
 
 
+## Migration Steps
+
+1. Follow this setup guide to create PostCSS Bootstrap 4 and Bootstrap 5 prefixes and a wrapper component
+2. Wrap all components in Bootstrap 4
+3. Begin converting all component syntax and wrappers to Bootstrap 5
+4. Eject Bootstrap 4
+5. Remove PostCSS Bootstrap 5 prefix and Bootstrap 5 wrappers (rely on Node package)
+
+
 ## Usage
 
 1. Install dependencies: `npm install`
